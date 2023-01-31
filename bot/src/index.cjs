@@ -1,12 +1,12 @@
-const { Probot } = require('probot') // eslint-disable-line no-unused-vars
 const { summarize, label, isSpam } = require('./utils.cjs')
 
 /**
  * App entry point
- * @param {Probot} app - The Probot context
+ * @param {import('probot').Probot} app - The Probot context
  *
  * @todo Add support for assignees
  * @todo Add support for custom settings
+ * @todo Add support for duplicated issues
  */
 module.exports = (app) => {
   app.log('Yay, the app was loaded!')
