@@ -1,0 +1,15 @@
+{
+  "name": "@issue-hero/bot",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "probot run ./src/index.cjs"
+  },
+  "dependencies": {
+    "cohere-ai": "5.0.2",
+    "probot": "12.3.0"
+  },
+  "devDependencies": {
+    "smee-client": "1.2.3"
+  }
+}

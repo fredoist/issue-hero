@@ -1,0 +1,15 @@
+{
+  "name": "issue-hero",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "lint": "standard --fix"
+  },
+  "workspaces": [
+    "app",
+    "bot"
+  ],
+  "devDependencies": {
+    "standard": "17.0.0"
+  }
+}
