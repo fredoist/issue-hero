@@ -3,7 +3,10 @@ const { summarize, label } = require('./utils.cjs')
 
 /**
  * App entry point
- * @param {Probot} app The Probot context
+ * @param {Probot} app - The Probot context
+ *
+ * @todo Add support for assignees
+ * @todo Add support for custom settings
  */
 module.exports = (app) => {
   app.log('Yay, the app was loaded!')
@@ -22,7 +25,7 @@ We suggest the following labels based on the issue content:
 ${labels.map(({ label, confidence }) => `- ${label} (\`${(confidence * 100).toFixed(2)}%\`)`).join('\n')}
 `
       const comment = context.issue({ body: commentBody })
-      const _labels = context.issue({ labels: labels.map(({ label }) => label) })
+      const _labels = context.issue({ labels: [...currentLabels.filter(Boolean), ...labels.map(({ label }) => label)] })
 
       await context.octokit.issues.createComment(comment)
       await context.octokit.issues.addLabels(_labels)
