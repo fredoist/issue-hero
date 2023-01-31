@@ -1,4 +1,4 @@
-const { summarize, label, isSpam } = require('./utils.cjs')
+const { summarize, label, isSpam } = require('./ai.cjs')
 
 /**
  * App entry point
