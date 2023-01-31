@@ -1,5 +1,5 @@
 const { Probot } = require('probot') // eslint-disable-line no-unused-vars
-const { summarize, label } = require('./utils.cjs')
+const { summarize, label, isSpam } = require('./utils.cjs')
 
 /**
  * App entry point
@@ -14,6 +14,14 @@ module.exports = (app) => {
     const { title, body, labels: currentLabels, assignees: currentAssignees } = context.payload.issue // eslint-disable-line no-unused-vars
 
     try {
+      const isToxic = await isSpam(`${title.trim()}. ${body.trim()}`)
+
+      if (isToxic) {
+        app.log('Spam detected')
+        await context.octokit.issues.createComment(context.issue({ body: 'This issue has been marked as spam and will be closed.' }))
+        await context.octokit.issues.update(context.issue({ state: 'closed' }))
+        return
+      }
       const summary = await summarize(`${title.trim()}. ${body.trim()}`)
       const labels = await label(body)
 
