@@ -7,12 +7,13 @@ cohere.init(process.env.COHERE_API_KEY)
  * @returns {Promise<string>} - The summary of the text
  */
 exports.summarize = async (text) => {
+  const prompt = `Issue: ${text}\n\nTLDR:`
   try {
     const { body: { generations: [{ text: summary }] } } = await cohere.generate({
       model: 'xlarge',
-      prompt: text,
-      max_tokens: 40,
-      temperature: 0.3,
+      prompt,
+      max_tokens: 100,
+      temperature: 0.2,
       stop_sequences: ['--'],
       p: 0.75,
       frequency_penalty: 0.5,
