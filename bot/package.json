@@ -7,7 +7,8 @@
   },
   "dependencies": {
     "cohere-ai": "5.0.2",
-    "probot": "12.3.0"
+    "probot": "12.3.0",
+    "redis": "^4.6.4"
   },
   "devDependencies": {
     "smee-client": "1.2.3"
