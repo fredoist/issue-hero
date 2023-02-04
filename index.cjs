@@ -1,5 +1,5 @@
-const { summarize, label, isSpam } = require('./ai.cjs')
-const { createComment, getConfig, saveConfig, redis } = require('./utils.cjs')
+const { summarize, label, isSpam } = require('./bot/ai.cjs')
+const { createComment, getConfig, saveConfig, redis } = require('./bot/utils.cjs')
 
 /**
  * App entry point
@@ -44,10 +44,7 @@ module.exports = async (app, { getRouter }) => {
 
   router.use(require('express').json())
   router.use((req, res, next) => {
-    const allowedOrigins = [
-      'http://localhost:3000',
-      'http://0.0.0.0:3000'
-    ]
+    const allowedOrigins = ['http://localhost:3000', 'http://0.0.0.0:3000']
     if (!allowedOrigins.includes(req.headers.origin)) {
       res.status(401).send('Unauthorized')
       return
@@ -59,7 +56,7 @@ module.exports = async (app, { getRouter }) => {
   router.get('/config/*', async (req, res) => {
     try {
       const repo = req.params[0]
-      const config = await getConfig(repo) || {}
+      const config = (await getConfig(repo)) || {}
       res.status(200).json(config)
     } catch (err) {
       app.log.error(err)
