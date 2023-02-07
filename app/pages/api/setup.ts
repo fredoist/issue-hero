@@ -20,7 +20,6 @@ const handler: NextApiHandler = async (req, res) => {
       return res.status(404).json({ error: 'No repositories found' })
     }
     const repos = repositories.map((repo: any) => repo.full_name)
-    await redis.connect()
     await redis.set(repositories[0].owner.login, JSON.stringify(repos))
     res.redirect(`/${repos[0]}`)
   } catch (error) {

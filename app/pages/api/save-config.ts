@@ -4,7 +4,6 @@ import redis, { setConfig } from '../../services/db'
 const handler: NextApiHandler = async (req, res) => {
   const { repo, config } = req.body
   try {
-    await redis.connect()
     await setConfig(repo, config)
     res.status(200).json({ success: true })
   } catch (error) {

@@ -1,8 +1,6 @@
-import { createClient } from 'redis'
+import Redis from 'ioredis'
 
-const client = createClient({
-  url: process.env.REDIS_URL,
-})
+const client = new Redis(process.env.REDIS_URL as string)
 
 export interface Config {
   summary: {
