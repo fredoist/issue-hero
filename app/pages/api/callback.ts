@@ -36,7 +36,7 @@ const handler: NextApiHandler = async (req, res) => {
       'Set-Cookie',
       `token=${data.access_token}; Path=/; HttpOnly; SameSite=Lax; Secure=true;`
     )
-    res.redirect(installation_id ? `/api/setup?installation_id=${installation_id}` : repos[0])
+    res.redirect(installation_id ? `/api/setup?installation_id=${installation_id}` : `/${repos[0]}`)
   } catch (error) {
     if (error) {
       res.status(500).json({ error: (error as any).message || error.toString() })
