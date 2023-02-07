@@ -7,17 +7,14 @@ import { Selector } from '../components/Selector'
 import { Toggle } from '../components/Toggle'
 import redis, { Config, getConfig, getRepos } from '../services/db'
 
-const Repo: NextPage = ({
-  repo,
-  repos,
-  config,
-  collaborators,
-}: {
+interface RepoProps {
   repo: string
   repos: string[]
   config: Config
   collaborators: any[]
-}) => {
+}
+
+const Repo: NextPage<RepoProps> = ({ repo, repos, config, collaborators }: RepoProps) => {
   return (
     <main role="main">
       <Header />
