@@ -1,4 +1,5 @@
 import type { NextApiHandler } from 'next'
+import { getRepos } from '../../services/db';
 
 const CLIENT_ID = process.env.GITHUB_CLIENT_ID
 const CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET
@@ -21,11 +22,21 @@ const handler: NextApiHandler = async (req, res) => {
     })
     const data = await response.json()
 
+    const { login: user } = await fetch('https://api.github.com/user', {
+      headers: {
+        Authorization: `Bearer ${data.access_token}`,
+        Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+    }).then((r) => r.json())
+
+    const repos = await getRepos(user)
+
     res.setHeader(
       'Set-Cookie',
       `token=${data.access_token}; Path=/; HttpOnly; SameSite=Lax; Secure=true;`
     )
-    res.redirect(installation_id ? `/api/setup?installation_id=${installation_id}` : '/fredoist')
+    res.redirect(installation_id ? `/api/setup?installation_id=${installation_id}` : repos[0])
   } catch (error) {
     if (error) {
       res.status(500).json({ error: (error as any).message || error.toString() })
