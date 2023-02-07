@@ -1,9 +1,13 @@
 import { Switch } from '@headlessui/react'
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { Config } from '../services/db';
+import { Config } from '../services/db'
 
-export const Toggle: React.FC<{state:boolean, config: Config, setting: string}> = ({ state, config, setting }) => {
+export const Toggle: React.FC<{ state: boolean; config: Config; setting: string }> = ({
+  state,
+  config,
+  setting,
+}) => {
   const [enabled, setEnabled] = useState(state)
   const router = useRouter()
   const { repo } = router.query as { repo: string[] }

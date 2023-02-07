@@ -1,7 +1,7 @@
 import { RadioGroup } from '@headlessui/react'
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { Config } from '../services/db';
+import { Config } from '../services/db'
 
 const options = [
   { name: 'Short', value: 100 },
@@ -9,7 +9,10 @@ const options = [
   { name: 'Long', value: 500 },
 ]
 
-export const Selector: React.FC<{ selected: number | undefined, config: Config }> = ({ selected, config }) => {
+export const Selector: React.FC<{ selected: number | undefined; config: Config }> = ({
+  selected,
+  config,
+}) => {
   const [value, setValue] = useState(options[0].value)
   const router = useRouter()
   const { repo } = router.query as { repo: string[] }

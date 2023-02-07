@@ -11,7 +11,7 @@ const Repo: NextPage = ({
   repo,
   repos,
   config,
-  collaborators
+  collaborators,
 }: {
   repo: string
   repos: string[]

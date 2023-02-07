@@ -5,13 +5,16 @@ const handler: NextApiHandler = async (req, res) => {
   const { installation_id } = req.query
   const { token } = req.cookies
   try {
-    const response = await fetch(`https://api.github.com/user/installations/${installation_id}/repositories`, {
-      headers: {
-        'Accept': 'application/vnd.github+json',
-        Authorization: `Bearer ${token}`,
-        'X-GitHub-Api-Version': '2022-11-28'
-      },
-    })
+    const response = await fetch(
+      `https://api.github.com/user/installations/${installation_id}/repositories`,
+      {
+        headers: {
+          Accept: 'application/vnd.github+json',
+          Authorization: `Bearer ${token}`,
+          'X-GitHub-Api-Version': '2022-11-28',
+        },
+      }
+    )
     const { repositories } = await response.json()
     if (!repositories.length) {
       return res.status(404).json({ error: 'No repositories found' })

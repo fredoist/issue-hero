@@ -1,8 +1,8 @@
-import { NextApiHandler } from 'next';
+import { NextApiHandler } from 'next'
 import redis, { setConfig } from '../../services/db'
 
 const handler: NextApiHandler = async (req, res) => {
-  const { repo, config } = req.body;
+  const { repo, config } = req.body
   try {
     await redis.connect()
     await setConfig(repo, config)
@@ -13,4 +13,4 @@ const handler: NextApiHandler = async (req, res) => {
   }
 }
 
-export default handler;
+export default handler
