@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@headlessui/react": "1.7.10",
+    "@heroicons/react": "^2.0.14",
     "inter-ui": "3.19.3",
     "next": "latest",
     "react": "18.2.0",
