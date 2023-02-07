@@ -64,7 +64,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req }) =>
       r.json()
     )
 
-    await redis.connect()
     const repos = await getRepos(user)
     const config = await getConfig(repo.join('/'))
 
