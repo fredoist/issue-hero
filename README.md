@@ -2,6 +2,7 @@
 
 Efficiently handle issues with AI-powered automation for summaries, labels, spam filtering, and duplicate detection.
 
-```txt
-🔒 source code will be available on Feb 7.
-```
+### Features
+- Write summaries of new issues
+- Auto-assign labels for newly issues
+- Detect spam and hate-speech and automatically close the issue
