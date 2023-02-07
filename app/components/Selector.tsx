@@ -1,5 +1,7 @@
 import { RadioGroup } from '@headlessui/react'
-import { useState } from 'react'
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react'
+import { Config } from '../services/db';
 
 const options = [
   { name: 'Short', value: 100 },
@@ -7,8 +9,20 @@ const options = [
   { name: 'Long', value: 500 },
 ]
 
-export const Selector: React.FC<{ selected: number | undefined }> = ({ selected }) => {
+export const Selector: React.FC<{ selected: number | undefined, config: Config }> = ({ selected, config }) => {
   const [value, setValue] = useState(options[0].value)
+  const router = useRouter()
+  const { repo } = router.query as { repo: string[] }
+
+  useEffect(() => {
+    fetch('/api/save-config', {
+      method: 'POST',
+      body: JSON.stringify({
+        repo: repo.join('/'),
+        config: { ...config, summary: { length: value } },
+      }),
+    })
+  }, [value, repo])
 
   return (
     <RadioGroup className="w-64" value={value} onChange={setValue} defaultValue={selected}>

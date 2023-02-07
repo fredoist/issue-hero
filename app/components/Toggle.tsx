@@ -1,8 +1,22 @@
 import { Switch } from '@headlessui/react'
-import { useState } from 'react'
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react'
+import { Config } from '../services/db';
 
-export const Toggle: React.FC<{state:boolean}> = ({ state }) => {
+export const Toggle: React.FC<{state:boolean, config: Config}> = ({ state, config }) => {
   const [enabled, setEnabled] = useState(state)
+  const router = useRouter()
+  const { repo } = router.query as { repo: string[] }
+
+  useEffect(() => {
+    fetch('/api/save-config', {
+      method: 'POST',
+      body: JSON.stringify({
+        repo: repo.join('/'),
+        config: { ...config, spam: { enabled: enabled } },
+      }),
+    })
+  }, [enabled, repo])
 
   return (
     <label className="py-4 inline-flex items-center gap-2">

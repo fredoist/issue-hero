@@ -1,10 +1,24 @@
 import { Combobox, Transition } from '@headlessui/react'
 import { BellAlertIcon, CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline'
-import { Fragment, useState } from 'react'
+import { useRouter } from 'next/router'
+import { Fragment, useEffect, useState } from 'react'
+import { Config } from '../services/db'
 
-export const ListBox: React.FC<{ options: any[] }> = ({ options }) => {
+export const ListBox: React.FC<{ options: any[]; config: Config }> = ({ options, config }) => {
   const [selected, setSelected] = useState(options[0].login)
   const [query, setQuery] = useState('')
+  const router = useRouter()
+  const { repo } = router.query as { repo: string[] }
+
+  useEffect(() => {
+    fetch('/api/save-config', {
+      method: 'POST',
+      body: JSON.stringify({
+        repo: repo.join('/'),
+        config: { ...config, spam: { administrators: selected } },
+      }),
+    })
+  }, [selected, repo])
 
   const filteredPeople =
     query === ''
