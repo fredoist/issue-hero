@@ -3,24 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "probot run ./dist/index.js",
-    "build": "tsc",
-    "dev": "nodemon --exec \"npm run start\"",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
-  "dependencies": {
-    "cohere-ai": "5.0.2",
-    "probot": "12.3.0",
-    "redis": "4.6.4"
-  },
   "devDependencies": {
     "eslint": "8.33.0",
-    "nodemon": "2.0.20",
-    "prettier": "2.8.3",
-    "smee-client": "1.2.3",
-    "typescript": "4.9.5"
-  }
+    "prettier": "2.8.3"
+  },
+  "workspaces": ["app", "bot"]
 }
