@@ -25,14 +25,14 @@ const Repo: NextPage = ({
         <RepoPicker selected={repo} repos={repos} />
         <div className="divide-y divide-slate-100">
           <Section title="Summary" description="Create summary comments for new issues">
-            <Toggle state={config.summary.enabled} config={config} />
+            <Toggle setting="summary" state={config.summary.enabled} config={config} />
             <Selector selected={config.summary.lenght} config={config} />
           </Section>
           <Section title="Labelling" description="Automatically label issues">
-            <Toggle state={config.label.enabled} config={config} />
+            <Toggle setting="label" state={config.label.enabled} config={config} />
           </Section>
           <Section title="Spam filtering" description="Filter out spammy issues">
-            <Toggle state={config.spam.enabled} config={config} />
+            <Toggle setting="spam" state={config.spam.enabled} config={config} />
             <ListBox options={collaborators} config={config} />
           </Section>
         </div>
