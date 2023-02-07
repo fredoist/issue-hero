@@ -83,9 +83,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req }) =>
     }
   } catch (error) {
     return {
-      redirect: {
-        destination: '/',
-        permanent: false,
+      props: {
+        repo: repo.join('/'),
+        repos: [],
+        config: {},
+        collaborators: [],
       },
     }
   }
