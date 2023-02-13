@@ -1,19 +1,19 @@
 {
   "name": "issue-hero",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "start": "probot run ./src/index.js",
+    "lint": "standard --fix",
+    "dev": "nodemon -e js --exec \"npm start\" -w ./src"
+  },
+  "dependencies": {
+    "cohere-ai": "5.0.2",
+    "probot": "12.3.0"
   },
   "devDependencies": {
-    "eslint": "8.33.0",
-    "prettier": "2.8.3"
-  },
-  "workspaces": [
-    "app",
-    "bot"
-  ]
+    "nodemon": "2.0.20",
+    "smee-client": "1.2.3",
+    "standard": "17.0.0"
+  }
 }
