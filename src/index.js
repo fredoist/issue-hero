@@ -61,8 +61,8 @@ async function summarize ({ title, body }) {
   const result = await cohere.generate({
     prompt: `${title}\n${body}`,
     max_tokens: 100,
-    model: 'xlarge',
-    preset: 'Issue-Summary-msg5zr'
+    model: 'command-xlarge-nightly',
+    preset: 'Issue-Summary-Command-sgyrr0'
   })
   const { text } = result.body.generations[0]
   return text
