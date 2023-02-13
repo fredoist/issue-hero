@@ -1,5 +1,6 @@
 const { Probot, Context } = require('probot') // eslint-disable-line no-unused-vars
 const cohere = require('cohere-ai')
+const { parse } = require('yaml')
 cohere.init(process.env.COHERE_API_KEY)
 
 /**
@@ -9,6 +10,7 @@ cohere.init(process.env.COHERE_API_KEY)
 module.exports = (app) => {
   app.on('issues.opened', async (context) => {
     const { title, body, labels } = context.payload.issue
+    const { owner: { login: owner }, name: repo } = context.payload.repository
     const { private: isPrivate } = context.payload.repository
     if (isPrivate) {
       return createComment({
@@ -17,6 +19,7 @@ module.exports = (app) => {
       })
     }
     try {
+      const config = await getConfig({ context, owner, repo })
       const isSpam = await spamFilter({ title, body })
       if (isSpam) {
         return createComment({
@@ -37,6 +40,22 @@ module.exports = (app) => {
       app.log.error(error)
     }
   })
+}
+
+/**
+ * Get the configuration for the repository
+ * @param {Object} props
+ * @param {Context<'issues.opened'>} props.context - The context of the issue
+ * @param {string} props.owner - The owner of the repository
+ * @param {string} props.repo - The name of the repository
+ */
+async function getConfig ({ context, owner, repo }) {
+  const { data: { content } } = await context.octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
+    owner,
+    repo,
+    path: 'issue-hero.yml'
+  })
+  return content ? parse(Buffer.from(content, 'base64').toString()) : {}
 }
 
 /**
