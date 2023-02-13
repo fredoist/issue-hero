@@ -1,0 +1,13 @@
+summary:
+  enabled: true
+  threshold: 100
+
+spam:
+  enabled: true
+  notify: ["fredoist"]
+  close: true
+  confidence: 0.85
+
+label:
+  enabled: true
+  confidence: 0.85
