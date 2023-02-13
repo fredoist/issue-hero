@@ -11,7 +11,7 @@ module.exports = (app) => {
     const { title, body, labels } = context.payload.issue
     const { private: isPrivate } = context.payload.repository
     if (isPrivate) {
-      return context.createComment({
+      return createComment({
         context,
         body: 'Issue Hero is not available for private repositories'
       })
