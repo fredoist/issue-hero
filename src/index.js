@@ -88,7 +88,7 @@ async function getConfig ({ context, owner, repo }) {
     repo,
     path: 'issue-hero.yml'
   })
-  return content ? parse(Buffer.from(content, 'base64').toString()) : defaultConfig
+  return content ? parse(Buffer.from({ ...defaultConfig, ...content }, 'base64').toString()) : defaultConfig
 }
 
 /**
