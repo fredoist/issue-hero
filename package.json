@@ -3,18 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "probot run ./src/index.js",
-    "lint": "standard --fix",
-    "dev": "nodemon -e js --exec \"npm start\" -w ./src"
+    "start": "probot run ./app/index.js",
+    "build": "tsc",
+    "lint": "eslint --fix",
+    "format": "prettier --write . --ignore-path .gitignore"
   },
   "dependencies": {
     "cohere-ai": "5.0.2",
-    "probot": "12.3.0",
-    "yaml": "2.2.1"
+    "probot": "12.3.0"
   },
   "devDependencies": {
-    "nodemon": "2.0.20",
+    "eslint": "8.34.0",
+    "prettier": "2.8.4",
     "smee-client": "1.2.3",
-    "standard": "17.0.0"
+    "typescript": "4.9.5"
   }
 }
