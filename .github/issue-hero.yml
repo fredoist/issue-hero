@@ -4,7 +4,7 @@ summary:
 
 spam:
   enabled: true
-  notify: ["fredoist"]
+  notify: ['fredoist']
   close: true
   confidence: 0.85
 
