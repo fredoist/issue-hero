@@ -9,7 +9,7 @@ export async function createSummary(context: Context<'issues.opened'>): Promise<
     const { title, body } = context.payload.issue
     const input = body || title
     const result = await cohere.generate({
-      model: 'command-xlarge-nighly',
+      model: 'command-xlarge-nightly',
       preset: 'Issue-Summary-Command-sgyrr0',
       prompt: input,
       max_tokens: config.summary.threshold,
