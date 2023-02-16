@@ -94,7 +94,7 @@ export async function addLabels(context: Context<'issues.opened'>): Promise<void
     )
     if (existingComment.length) {
       const comment = context.issue({
-        body: `I have added the following labels to this issue: ${suggestedLabels.join(', ')}`,
+        body: `${existingComment[0].body}\n\nI have added the following labels to this issue: ${suggestedLabels.join(', ')}`,
         comment_id: existingComment[0].id,
       })
       await context.octokit.issues.updateComment(comment)
