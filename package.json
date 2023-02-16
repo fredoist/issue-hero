@@ -9,10 +9,12 @@
     "format": "prettier --write . --ignore-path .gitignore"
   },
   "dependencies": {
+    "bluebird": "3.7.2",
     "cohere-ai": "5.0.2",
     "probot": "12.3.0"
   },
   "devDependencies": {
+    "@types/bluebird": "3.5.38",
     "eslint": "8.34.0",
     "prettier": "2.8.4",
     "smee-client": "1.2.3",
