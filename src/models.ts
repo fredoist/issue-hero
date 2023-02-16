@@ -16,6 +16,15 @@ export async function createSummary(context: Context<'issues.opened'>): Promise<
     })
 
     const { text: summary } = result.body.generations[0]
+    const comments = await context.octokit.issues.listComments(context.issue())
+    const existingComment = comments.data.filter(
+      (comment) => comment.user?.login === 'issue-hero[bot]'
+    )
+    if (existingComment.length) {
+      const comment = context.issue({ body: `TLDR: ${summary}`, comment_id: existingComment[0].id })
+      await context.octokit.issues.updateComment(comment)
+      return Promise.resolve()
+    }
     const comment = context.issue({ body: `TLDR: ${summary}` })
     await context.octokit.issues.createComment(comment)
   }
@@ -36,8 +45,21 @@ export async function filterSpam(context: Context<'issues.opened'>): Promise<voi
     const { prediction, confidence } = result.body.classifications[0]
     if (prediction === 'spam' && confidence > config.spam.confidence) {
       const maintainers = config.spam.notify.map((user) => `@${user}`).join(' ')
+
+      const comments = await context.octokit.issues.listComments(context.issue())
+      const existingComment = comments.data.filter(
+        (comment) => comment.user?.login === 'issue-hero[bot]'
+      )
+      if (existingComment.length) {
+        const comment = context.issue({
+          body: `This issue has been flagged as spam. If you believe this is a mistake, please contact the maintainers of this repository.\n\n${maintainers}`,
+          comment_id: existingComment[0].id,
+        })
+        await context.octokit.issues.updateComment(comment)
+        return Promise.reject('Issue flagged as spam')
+      }
       const comment = context.issue({
-        body: `This issue has been flagged as spam. If you believe this is a mistake, please contact the maintainers of this repository.\n\ncc ${maintainers}`,
+        body: `This issue has been flagged as spam. If you believe this is a mistake, please contact the maintainers of this repository.\n\n${maintainers}`,
       })
       await context.octokit.issues.createComment(comment)
       if (config.spam.close) await context.octokit.issues.update(context.issue({ state: 'closed' }))
@@ -65,6 +87,20 @@ export async function addLabels(context: Context<'issues.opened'>): Promise<void
         return null
       })
       .filter(Boolean) as string[]
+
+    const comments = await context.octokit.issues.listComments(context.issue())
+    const existingComment = comments.data.filter(
+      (comment) => comment.user?.login === 'issue-hero[bot]'
+    )
+    if (existingComment.length) {
+      const comment = context.issue({
+        body: `I have added the following labels to this issue: ${suggestedLabels.join(', ')}`,
+        comment_id: existingComment[0].id,
+      })
+      await context.octokit.issues.updateComment(comment)
+      return Promise.resolve()
+    }
+
     await context.octokit.issues.addLabels(context.issue({ labels: suggestedLabels }))
   }
   return Promise.resolve()
