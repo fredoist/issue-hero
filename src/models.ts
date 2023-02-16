@@ -7,7 +7,7 @@ export async function createSummary(context: Context<'issues.opened'>): Promise<
   const config = await context.config('issue-hero.yml', defaultConfig)
   if (config?.summary.enabled) {
     const { title, body } = context.payload.issue
-    const input = body || title
+    const input = body ?? title
     const result = await cohere.generate({
       model: 'command-xlarge-nightly',
       preset: 'Issue-Summary-Command-sgyrr0',
@@ -26,7 +26,7 @@ export async function filterSpam(context: Context<'issues.opened'>): Promise<voi
   const config = await context.config('issue-hero.yml', defaultConfig)
   if (config?.spam.enabled) {
     const { title, body } = context.payload.issue
-    const input = body || title
+    const input = body ?? title
     const result = await cohere.classify({
       model: process.env.SPAM_DETECTION_MODEL as string,
       inputs: [input],
@@ -51,7 +51,7 @@ export async function addLabels(context: Context<'issues.opened'>): Promise<void
   const config = await context.config('issue-hero.yml', defaultConfig)
   if (config?.label.enabled) {
     const { title, body } = context.payload.issue
-    const input = body || title
+    const input = body ?? title
     const result = await cohere.classify({
       model: process.env.ISSUE_LABEL_MODEL as string,
       inputs: [input],
