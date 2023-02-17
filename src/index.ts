@@ -15,7 +15,7 @@ export default (app: Probot) => {
         const maintainers = config.spam.notify.map((u) => `@${u}`).join(', ')
         const spamContext =
           'This issue has been flagged as spam. If you believe this is an error, please contact the maintainers.'
-        const notifyContext = maintainers ? `Please notify ${maintainers}.` : ''
+        const notifyContext = maintainers ? `We've notified ${maintainers}.` : ''
         const comment = context.issue({ body: [spamContext, notifyContext].join('\n\n') })
         await context.octokit.issues.createComment(comment)
         if (config.spam.close)
@@ -29,7 +29,7 @@ export default (app: Probot) => {
 
       const summaryContext = summary ? `### TLDR:\n\n${summary}` : ''
       const labelsWithConfidence = suggestedLabels?.map(
-        ({ label, confidence }) => `\`${label}\`(${confidence * 100}%)`
+        ({ label, confidence }) => `\`${label}\`(${Math.round(confidence * 100)}%)`
       )
       const labelsContext = labels?.length
         ? `The following labels have been added based on issue context:\n${labelsWithConfidence?.join(
