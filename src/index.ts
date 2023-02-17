@@ -29,7 +29,7 @@ export default (app: Probot) => {
 
       const summaryContext = summary ? `### TLDR:\n\n${summary}` : ''
       const labelsWithConfidence = suggestedLabels?.map(
-        ({ label, confidence }) => `${label}\`${confidence * 100}%\``
+        ({ label, confidence }) => `\`${label}\`(${confidence * 100}%)`
       )
       const labelsContext = labels?.length
         ? `The following labels have been added based on issue context:\n${labelsWithConfidence?.join(
