@@ -41,7 +41,7 @@ export async function filterSpam(
 export async function addLabels(
   context: Context<'issues.opened'>,
   config: Config
-): Promise<string[] | null> {
+): Promise<{ label: string; confidence: number }[] | null> {
   if (!config?.label.enabled) return null
   const { title, body } = context.payload.issue
   const input = body ?? title
@@ -52,12 +52,10 @@ export async function addLabels(
   })
 
   const { labels } = result.body.classifications[0]
-  const suggestedLabels = Object.entries(labels)
-    .map(([label, { confidence }]) => {
-      if (confidence > config.label.confidence) return label
-      return null
-    })
-    .filter(Boolean) as string[]
+  const suggestedLabels = Object.entries(labels).map(([label, { confidence }]) => ({
+    label,
+    confidence,
+  }))
 
-  return suggestedLabels
+  return suggestedLabels.filter(({ confidence }) => confidence >= config.label.confidence)
 }
