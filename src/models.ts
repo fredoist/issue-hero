@@ -10,6 +10,7 @@ export async function createSummary(
   if (!config?.summary.enabled) return null
   const { title, body } = context.payload.issue
   const input = body ?? title
+  if (input.length < 100) return input // skip summarization if input is short
   const result = await cohere.generate({
     model: 'command-xlarge-nightly',
     preset: 'Issue-Summary-Command-sgyrr0',
