@@ -1,4 +1,4 @@
-type Config = {
+export type Config = {
   summary: {
     enabled: boolean
     threshold: number
